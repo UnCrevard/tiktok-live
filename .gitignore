@@ -1,0 +1,13 @@
+thumbs.db
+desktop.ini
+
+*.jpg
+*.log
+
+/node_modules/
+/testing/
+/docs/
+/__shared__/
+
+*.sublime-*
+.vscode/

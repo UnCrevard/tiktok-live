@@ -1,0 +1,27 @@
+{
+	"compilerOptions":
+	{
+		"module": "commonjs"
+		,"target": "esnext"
+		,"noImplicitAny": false
+
+		// source map
+		//,"sourceMap":true
+		//,"inlineSources":true
+		//,"inlineSourceMap": true
+
+		//
+		,"outDir": "js/"
+
+		,"removeComments": true
+
+		,"allowSyntheticDefaultImports": true
+		,"esModuleInterop":true
+		//,"typeRoots" : ["../__Typing/"]
+		//"noEmitOnError":true
+	},
+	"exclude":
+	[
+		"./__shared__/module_*"
+	]
+}
