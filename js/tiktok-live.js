@@ -14,7 +14,7 @@ var __setModuleDefault = (this && this.__setModuleDefault) || (Object.create ? (
 var __importStar = (this && this.__importStar) || function (mod) {
     if (mod && mod.__esModule) return mod;
     var result = {};
-    if (mod != null) for (var k in mod) if (Object.hasOwnProperty.call(mod, k)) __createBinding(result, mod, k);
+    if (mod != null) for (var k in mod) if (k !== "default" && Object.hasOwnProperty.call(mod, k)) __createBinding(result, mod, k);
     __setModuleDefault(result, mod);
     return result;
 };
@@ -83,7 +83,7 @@ async function main() {
             module_log_1.log("multiple link ?");
         module_log_1.log(pkg.name, "scraping web page");
         let text = await module_net_1.getText(cmd.args[0]);
-        let re = /(__INIT_PROPS__.=.)(.+)(<\/script>)/;
+        let re = /(__INIT_PROPS__.=.)(.+?)(<\/script>)/;
         let m = text.match(re);
         if (m) {
             let live = JSON.parse(m[2]);
@@ -98,7 +98,7 @@ async function main() {
             let url = stream.liveData.LiveUrl;
             module_log_1.info("LiveUrl", url);
             module_log_1.log("recording live...");
-            await new module_hls_1.HlsTS(3000, 10, null).play(url, filename);
+            await new module_hls_1.HlsTS(1000, 10, null).play(url, filename);
         }
         else {
             module_log_1.error("live not found or parsing fail");

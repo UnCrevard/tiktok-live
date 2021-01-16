@@ -5,9 +5,14 @@ desktop.ini
 *.log
 
 /node_modules/
+
 /testing/
+/js/testing/
+
 /docs/
+
 /__shared__/
+/__typing__/
 
 *.sublime-*
 .vscode/

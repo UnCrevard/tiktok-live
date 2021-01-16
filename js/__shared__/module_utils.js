@@ -1,6 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.jsonDeepSearch = exports.isLatin = exports.isANSI = exports.removeNonANSIChar = exports.cleanHTML = exports.cleanFilename = exports.formatDateTime = exports.formatTime = exports.formatDate = exports.Time = exports.promisify = exports.prettify = exports.noop = void 0;
+exports.jsonDeepSearch = exports.isLatin = exports.isANSI = exports.removeNonANSIChar = exports.cleanHTML = exports.cleanFilename = exports.formatDateTime = exports.formatTime = exports.formatDate = exports.promisify = exports.prettify = exports.noop = void 0;
 function noop() { }
 exports.noop = noop;
 function prettify(obj) {
@@ -11,13 +11,6 @@ function promisify(func) {
     return new Promise(func);
 }
 exports.promisify = promisify;
-var Time;
-(function (Time) {
-    Time[Time["MILLI"] = 1000] = "MILLI";
-    Time[Time["SECOND"] = 1000] = "SECOND";
-    Time[Time["MINUTE"] = 60000] = "MINUTE";
-    Time[Time["HOUR"] = 3600000] = "HOUR";
-})(Time = exports.Time || (exports.Time = {}));
 function formatDate(date) {
     var d = date.getDate();
     var m = date.getMonth() + 1;
@@ -37,7 +30,7 @@ function formatDateTime(date) {
 }
 exports.formatDateTime = formatDateTime;
 function cleanFilename(filename) {
-    return filename.replace(/[\x00-\x1f"<>|&*?:/\\~]/gi, "_").slice(0);
+    return filename.replace(/[\x00-\x1f"#<>|&*?:/\\~]/gi, "_").slice(0);
 }
 exports.cleanFilename = cleanFilename;
 function cleanHTML(html) {

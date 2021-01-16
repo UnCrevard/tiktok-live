@@ -14,7 +14,7 @@ var __setModuleDefault = (this && this.__setModuleDefault) || (Object.create ? (
 var __importStar = (this && this.__importStar) || function (mod) {
     if (mod && mod.__esModule) return mod;
     var result = {};
-    if (mod != null) for (var k in mod) if (Object.hasOwnProperty.call(mod, k)) __createBinding(result, mod, k);
+    if (mod != null) for (var k in mod) if (k !== "default" && Object.hasOwnProperty.call(mod, k)) __createBinding(result, mod, k);
     __setModuleDefault(result, mod);
     return result;
 };
@@ -64,6 +64,7 @@ function parsePlaylist(playlist, head, tail) {
                         case "TWITCH-TOTAL-SECS":
                         case "TWITCH-PREFETCH":
                         case "SCTE35-OUT":
+                        case "PLAYLIST-TYPE":
                             break;
                         case "#EXT-X-ALLOW-CACHE":
                             break;
@@ -90,7 +91,7 @@ function parsePlaylist(playlist, head, tail) {
 }
 class HlsTS {
     constructor(updateInterval, maxIdle, ffmpegOptions) {
-        this.updateInterval = updateInterval;
+        this.updateInterval = 1000;
         this.maxIdle = maxIdle;
         this.useFFMPEG = ffmpegOptions;
         module_log_1.info(`hls timeout ${this.updateInterval} maxIdle ${this.maxIdle} ffmpegOptions ${ffmpegOptions}`);
@@ -130,6 +131,7 @@ class HlsTS {
             }
             else {
                 this.stream = _fs.createWriteStream(filename);
+                this.stream.on("error", module_log_1.error);
             }
             const updateSegments = async () => {
                 if (exitCode !== null)
@@ -157,6 +159,16 @@ class HlsTS {
                         }
                         else {
                             idle = 0;
+                        }
+                        if (fresh && segments.length) {
+                            let moy = fresh / segments.length;
+                            if (moy < 0.5) {
+                                this.updateInterval = this.updateInterval + 1000;
+                            }
+                            else if (this.updateInterval > 1000) {
+                                this.updateInterval = this.updateInterval - 1000;
+                            }
+                            module_log_1.debug("new interval", this.updateInterval);
                         }
                         hTimeout = setTimeout(updateSegments, this.updateInterval);
                     }
@@ -232,6 +244,14 @@ class HlsTS {
                             }
                         }
                         downloadSegment(request, this.stream);
+                    }
+                    if (this.stream) {
+                        P.exists(filename)
+                            .then(bool => {
+                            if (!bool)
+                                exitCode = -2;
+                        })
+                            .catch(module_utils_1.noop);
                     }
                     if (updated) {
                         if (waitingSegment == 0 && cache.length == 0 && this.updateInterval == 0) {
