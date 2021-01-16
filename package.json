@@ -1,6 +1,6 @@
 {
   "name": "tiktok-live",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "record tiktok live stream from cli",
   "main": "index.js",
   "scripts": {
